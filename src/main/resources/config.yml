@@ -1,0 +1,12 @@
+scan-interval:
+  period: 1
+  unit: minute
+directories:
+  - path: 'D:\Project\Personal\certificate-exporter1\prom-certificate-exporter\src\main\resources'
+    file-extension:
+      - crt
+      - cer
+#  - path: sad
+#    fileExtension:
+#      - cer
+
