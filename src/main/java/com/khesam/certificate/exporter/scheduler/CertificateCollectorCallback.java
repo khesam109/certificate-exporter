@@ -1,11 +1,14 @@
 package com.khesam.certificate.exporter.scheduler;
 
+import org.tinylog.Logger;
+
 import java.security.cert.X509Certificate;
-import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 
 public interface CertificateCollectorCallback extends PeriodicTaskRunnerCallback {
 
-    void onSuccess(Collection<X509Certificate> certificates);
-    void onFiled(String message);
+    void onSuccess(Map<String, X509Certificate> certificates);
+    default void onFiled(String message) {
+        Logger.error(message);
+    }
 }

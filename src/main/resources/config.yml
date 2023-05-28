@@ -1,9 +1,12 @@
-scan-interval:
+scan_interval:
   period: 1
   unit: minute
+server_config:
+  root_context: '/metrics/prometheus'
+  port: 9094
 directories:
-  - path: 'D:\Project\Personal\certificate-exporter1\prom-certificate-exporter\src\main\resources'
-    file-extension:
+  - path: 'F:\Personal\github\quarkus-monitoring-starter\docker-compose\tls'
+    file_extension:
       - crt
       - cer
 #  - path: sad

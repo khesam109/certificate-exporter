@@ -8,6 +8,7 @@ public class ApplicationParameter {
     private static final ScanInterval DEFAULT_INTERVAL = new ScanInterval(1, "DAY");
     private static ScanInterval scanInterval;
     private static List<CertificateDirectory> directories;
+    private static ServerConfig serverConfig;
 
     public static void registerDirectories(ScanInterval scanInterval, List<CertificateDirectory> directories) {
         if (scanInterval == null) {
@@ -25,10 +26,18 @@ public class ApplicationParameter {
         }
     }
 
+    public static void setServerConfig(ServerConfig serverConfig) {
+        ApplicationParameter.serverConfig = serverConfig;
+    }
+
     public static ScanInterval scanInterval() {
         return ApplicationParameter.scanInterval;
     }
     public static List<CertificateDirectory> directories() {
         return ApplicationParameter.directories;
+    }
+
+    public static ServerConfig serverConfig() {
+        return ApplicationParameter.serverConfig;
     }
 }

@@ -12,6 +12,7 @@
         <bouncycastle.version>1.70</bouncycastle.version>
         <jackson.version>2.15.1</jackson.version>
         <prometheus.version>0.16.0</prometheus.version>
+        <tinylog.version>2.5.0</tinylog.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -49,6 +50,17 @@
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_httpserver</artifactId>
             <version>${prometheus.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.tinylog</groupId>
+            <artifactId>tinylog-api</artifactId>
+            <version>${tinylog.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tinylog</groupId>
+            <artifactId>tinylog-impl</artifactId>
+            <version>${tinylog.version}</version>
         </dependency>
     </dependencies>
 

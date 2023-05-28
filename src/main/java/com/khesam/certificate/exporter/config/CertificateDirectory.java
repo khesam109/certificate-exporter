@@ -6,6 +6,6 @@ import java.util.List;
 
 public record CertificateDirectory(
         @JsonProperty("path") String path,
-        @JsonProperty("file-extension") List<String> fileExtension
+        @JsonProperty("file_extension") List<String> fileExtension
 ) {
 }

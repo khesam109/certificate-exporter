@@ -1,54 +1,67 @@
 package com.khesam.certificate.exporter;
 
 import com.khesam.certificate.exporter.collector.CertificateCollector;
+import com.khesam.certificate.exporter.config.ApplicationParameter;
 import com.khesam.certificate.exporter.config.ConfigReader;
-import com.khesam.certificate.exporter.scheduler.CertificateCollectorCallback;
+import com.khesam.certificate.exporter.prometheus.PrometheusCertificateExporter;
 import com.khesam.certificate.exporter.scheduler.PeriodicTaskRunner;
-import io.prometheus.client.Counter;
+import com.sun.net.httpserver.HttpServer;
+import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.exporter.HTTPServer;
+import org.tinylog.Logger;
 
 import java.io.IOException;
-import java.security.cert.X509Certificate;
-import java.util.Collection;
+import java.net.InetSocketAddress;
 
 public class Runner {
 
-    static final Counter requests = Counter.build()
-            .name("requests_total").help("Total requests.").register();
+//    static final Gauge gauge = Gauge.build()
+//            .name("cert").labelNames("Path", "Asghar").help("Inprogress requests.").register();
 
-    static void processRequest() {
-        requests.inc();
-        System.out.println("salam");
-        // Your code here.
+//    static void processRequest(String filePath, X509Certificate x509Certificate) {
+//        gauge.labels(filePath, CertificateHelper.getCommonName(x509Certificate)).set(DateHelper.getDifferenceInDays(new Date(), x509Certificate.getNotAfter()));
+//    }
+
+    public static void main(String[] args) {
+        try {
+            ConfigReader.init();
+            runServer();
+            runScheduler();
+        } catch (Exception e) {
+            Logger.error(e, "Unable to start exporter due to miss configuration");
+            System.exit(1);
+        }
     }
 
-    public static void main(String[] args) throws IOException {
-        HTTPServer server = new HTTPServer.Builder()
-                .withPort(1234)
-                .build();
-//        ExporterConfig.directories.add(new CertificateDirectory("D:\\Project\\Personal\\certificate-exporter1\\prom-certificate-exporter\\src\\main\\resources", List.of("crt")));
-        ConfigReader.init("D:\\Project\\Personal\\certificate-exporter\\src\\main\\resources\\config.yml");
-        PeriodicTaskRunner.getInstance().run(
-                new CertificateCollector(new CertificateCollectorCallback() {
-                    @Override
-                    public void onSuccess(Collection<X509Certificate> certificates) {
-                        certificates.forEach(e -> System.out.println(e.getNotAfter().toString()));
-                    }
-
-                    @Override
-                    public void onFiled(String message) {
-
-                    }
-                })
+    private static void runServer() throws IOException {
+        Logger.info("Starting exporter...");
+        HttpServer httpServer = HttpServer.create(
+                new InetSocketAddress(
+                        ApplicationParameter.serverConfig().port()
+                ), 3
         );
 
+        httpServer.createContext(
+                ApplicationParameter.serverConfig().rootContext(),
+                new HTTPServer.HTTPMetricHandler(CollectorRegistry.defaultRegistry)
+        );
 
-//        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-//        scheduler.scheduleAtFixedRate(new Runnable() {
-//            public void run() {
-//                processRequest();
-//
-//            }
-//        }, 0, 1, TimeUnit.SECONDS);
+        new HTTPServer.Builder()
+                .withHttpServer(httpServer)
+                .build();
+
+        Logger.info("Http endpoint successfully stated");
+    }
+
+    private static void runScheduler() {
+        PeriodicTaskRunner.getInstance().run(
+                new CertificateCollector(
+                        certificates -> certificates.forEach(
+                                (key, value) ->
+                                        PrometheusCertificateExporter.getInstance()
+                                                .measureCertificateExpiry(key, value)
+                        )
+                )
+        );
     }
 }
