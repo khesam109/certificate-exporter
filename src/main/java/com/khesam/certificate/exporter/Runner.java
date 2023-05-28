@@ -15,13 +15,6 @@ import java.net.InetSocketAddress;
 
 public class Runner {
 
-//    static final Gauge gauge = Gauge.build()
-//            .name("cert").labelNames("Path", "Asghar").help("Inprogress requests.").register();
-
-//    static void processRequest(String filePath, X509Certificate x509Certificate) {
-//        gauge.labels(filePath, CertificateHelper.getCommonName(x509Certificate)).set(DateHelper.getDifferenceInDays(new Date(), x509Certificate.getNotAfter()));
-//    }
-
     public static void main(String[] args) {
         try {
             ConfigReader.init();
