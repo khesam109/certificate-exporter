@@ -7,6 +7,7 @@ import java.util.List;
 public record ExporterConfiguration(
         @JsonProperty("scan_interval") ScanInterval scanInterval,
         @JsonProperty("server_config") ServerConfig serverConfig,
-        @JsonProperty("directories") List<CertificateDirectory> directories
+        @JsonProperty("directories") List<CertificateDirectory> directories,
+        @JsonProperty("remote_endpoints") List<RemoteEndpoint> endpoints
 ) {
 }

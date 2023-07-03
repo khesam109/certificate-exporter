@@ -9,6 +9,9 @@ directories:
     file_extension:
       - crt
       - cer
+remote_endpoints:
+  - path: 'https://www.farsnews.ir/'
+    ca_file_path: 'C:\Users\M_Kalantari\Documents\My Received Files\fars-chain\chain.crt'
 #  - path: sad
 #    fileExtension:
 #      - cer

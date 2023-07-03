@@ -50,9 +50,13 @@ public class Runner {
         PeriodicTaskRunner.getInstance().run(
                 new CertificateCollector(
                         certificates -> certificates.forEach(
-                                (key, value) ->
-                                        PrometheusCertificateExporter.getInstance()
-                                                .measureCertificateExpiry(key, value)
+                                (key, value) -> {
+                                    if (value == null) {
+                                        PrometheusCertificateExporter.getInstance().notAvailableData(key);
+                                    } else {
+                                        PrometheusCertificateExporter.getInstance().measureCertificateExpiry(key, value);
+                                    }
+                                }
                         )
                 )
         );

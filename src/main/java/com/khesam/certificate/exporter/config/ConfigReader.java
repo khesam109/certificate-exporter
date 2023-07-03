@@ -9,7 +9,8 @@ import java.io.IOException;
 public class ConfigReader {
 
     private static final String CONFIG_PATH_KEY = "EXPORTER_CONFIG_PATH";
-    private static final String DEFAULT_CONFIG_PATH = "/etc/certificateexporter/config.yml";
+//    private static final String DEFAULT_CONFIG_PATH = "/etc/certificateexporter/config.yml";
+    private static final String DEFAULT_CONFIG_PATH = "F:\\Personal\\github\\certificate-exporter\\src\\main\\resources\\config.yml";
 
     public static void init() throws IOException {
         String configPath = System.getenv(CONFIG_PATH_KEY);
@@ -18,13 +19,14 @@ public class ConfigReader {
         } else {
             init(configPath);
         }
-
     }
 
     private static void init(String exporterConfig) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         ExporterConfiguration config = getExporterConfiguration(mapper, new File(exporterConfig));
-        ApplicationParameter.registerDirectories(config.scanInterval(), config.directories());
+        ApplicationParameter.registerDirectories(config.directories());
+        ApplicationParameter.registerEndpoints(config.endpoints());
+        ApplicationParameter.setScanInterval(config.scanInterval());
         ApplicationParameter.setServerConfig(config.serverConfig());
     }
 

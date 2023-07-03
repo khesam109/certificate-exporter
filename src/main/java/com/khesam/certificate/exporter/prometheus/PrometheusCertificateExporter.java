@@ -9,11 +9,13 @@ import java.util.Date;
 
 public class PrometheusCertificateExporter {
 
+    private final static String NOT_AVAILABLE = "N/A";
     private static final String DATE_FORMAT = "yyyy-mm-dd HH:MM";
     private static final String CERTIFICATE_EXPIRY_METRIC_NAME = "certificate_expiry_days";
     private static final String CERTIFICATE_EXPIRY_METRIC_HELP = "Measure Certificate Expire in Days";
-    private static final String[] CERTIFICATE_EXPIRY_LABELS = new String[]
-            {"common_name", "path", "effective_date", "expiration_date"};
+    private static final String[] CERTIFICATE_EXPIRY_LABELS = new String[] {
+            "common_name", "path", "effective_date", "expiration_date"
+    };
     private final Gauge certificateExpiry;
 
     private static PrometheusCertificateExporter INSTANCE = null;
@@ -32,14 +34,25 @@ public class PrometheusCertificateExporter {
         return INSTANCE;
     }
 
-    public void measureCertificateExpiry(String filePath, X509Certificate certificate) {
+    public void measureCertificateExpiry(String path, X509Certificate certificate) {
         this.certificateExpiry.labels(
                 CertificateHelper.getCommonName(certificate),
-                filePath,
+                path,
                 DateHelper.gregorianToSolarHijri(certificate.getNotBefore()).show(DATE_FORMAT),
                 DateHelper.gregorianToSolarHijri(certificate.getNotAfter()).show(DATE_FORMAT)
         ).set(
                 DateHelper.getDifferenceInDays(new Date(), certificate.getNotAfter())
+        );
+    }
+
+    public void notAvailableData(String path) {
+        this.certificateExpiry.labels(
+                NOT_AVAILABLE,
+                path,
+                NOT_AVAILABLE,
+                NOT_AVAILABLE
+        ).set(
+                -1
         );
     }
 }
