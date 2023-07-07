@@ -1,34 +1,26 @@
 package com.khesam.certificate.exporter.scheduler;
 
-import com.khesam.certificate.exporter.config.ApplicationParameter;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class PeriodicTaskRunner {
-
-    private static PeriodicTaskRunner INSTANCE;
+public abstract class PeriodicTaskRunner {
 
     private final int period;
     private final TimeUnit timeUnit;
+    private final Runnable task;
     private final ScheduledExecutorService executor;
 
-    private PeriodicTaskRunner() {
-        this.period = ApplicationParameter.scanInterval().period();
-        this.timeUnit = ApplicationParameter.scanInterval().getTimeUnit();
+    public PeriodicTaskRunner(int period, TimeUnit timeUnit, Runnable task) {
+        this.period = period;
+        this.timeUnit = timeUnit;
+        this.task = task;
         this.executor = Executors.newScheduledThreadPool(1);
     }
 
-    public static PeriodicTaskRunner getInstance() {
-        if (INSTANCE == null)
-            INSTANCE = new PeriodicTaskRunner();
-        return INSTANCE;
-    }
-
-    public void run(Runnable task) {
+    protected void run() {
         this.executor.scheduleAtFixedRate(
-                task, 0, period, timeUnit
+                this.task, 0, period, timeUnit
         );
     }
 }

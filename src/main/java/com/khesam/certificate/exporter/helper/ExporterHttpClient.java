@@ -1,5 +1,8 @@
 package com.khesam.certificate.exporter.helper;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSession;
@@ -24,24 +27,26 @@ import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
-public class HttpClientHelper {
+public class ExporterHttpClient {
+
     private static final Duration CONNECTION_TIMEOUT = Duration.of(10, SECONDS);
     private static final Duration READ_TIMEOUT = Duration.of(10, SECONDS);
 
-    private static HttpClientHelper INSTANCE;
+    private final HttpClient httpClient;
 
-    private HttpClientHelper() {}
-
-    public static HttpClientHelper getInstance() {
-        if (INSTANCE == null)
-            INSTANCE = new HttpClientHelper();
-        return INSTANCE;
+    @AssistedInject
+    public ExporterHttpClient(@Assisted String caFilePath) {
+        if (caFilePath == null || caFilePath.isEmpty()) {
+            this.httpClient = buildHttpClient();
+        } else {
+            this.httpClient = buildHttpClient(sslContext(caFilePath));
+        }
     }
 
-    public X509Certificate getCertificate(String path, String caFilePath) {
+    public X509Certificate getCertificate(String url) {
         try {
-            Optional<SSLSession> optional = client(caFilePath).send(
-                    getRequest(path),
+            Optional<SSLSession> optional = httpClient.send(
+                    getRequest(url),
                     HttpResponse.BodyHandlers.discarding()
             ).sslSession();
 
@@ -54,13 +59,6 @@ public class HttpClientHelper {
         } catch (IOException | InterruptedException | URISyntaxException e) {
             return null;
         }
-    }
-
-    private HttpClient client(String caFilePath) {
-        return HttpClient.newBuilder()
-                .sslContext(sslContext(caFilePath))
-                .connectTimeout(CONNECTION_TIMEOUT)
-                .build();
     }
 
     private SSLContext sslContext(String caFilePath) {
@@ -84,6 +82,19 @@ public class HttpClientHelper {
                  CertificateException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private HttpClient buildHttpClient() {
+        return HttpClient.newBuilder()
+                .connectTimeout(CONNECTION_TIMEOUT)
+                .build();
+    }
+
+    private HttpClient buildHttpClient(SSLContext sslContext) {
+        return HttpClient.newBuilder()
+                .sslContext(sslContext)
+                .connectTimeout(CONNECTION_TIMEOUT)
+                .build();
     }
 
     private HttpRequest getRequest(String path) throws URISyntaxException {

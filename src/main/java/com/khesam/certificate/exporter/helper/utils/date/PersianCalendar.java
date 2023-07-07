@@ -1,4 +1,6 @@
-package com.khesam.certificate.exporter.helper;
+package com.khesam.certificate.exporter.helper.utils.date;
+
+import com.khesam.certificate.exporter.helper.utils.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,12 +53,12 @@ public class PersianCalendar {
         else if (pattern.contains("yy"))
             result = result.replace("yy", String.valueOf(this.year % 100));
 
-        result = result.replace("mm", StringHelper.addLeadingZero(this.month, 2));
-        result = result.replace("dd", StringHelper.addLeadingZero(this.day, 2));
+        result = result.replace("mm", StringUtils.addLeadingZero(this.month, 2));
+        result = result.replace("dd", StringUtils.addLeadingZero(this.day, 2));
 
-        result = result.replace("HH", StringHelper.addLeadingZero(this.hour, 2));
-        result = result.replace("MM", StringHelper.addLeadingZero(this.minute, 2));
-        result = result.replace("SS", StringHelper.addLeadingZero(this.second, 2));
+        result = result.replace("HH", StringUtils.addLeadingZero(this.hour, 2));
+        result = result.replace("MM", StringUtils.addLeadingZero(this.minute, 2));
+        result = result.replace("SS", StringUtils.addLeadingZero(this.second, 2));
         return result;
     }
 

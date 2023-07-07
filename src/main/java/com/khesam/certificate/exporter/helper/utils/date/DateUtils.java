@@ -1,15 +1,15 @@
-package com.khesam.certificate.exporter.helper;
+package com.khesam.certificate.exporter.helper.utils.date;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
-public class DateHelper {
+public class DateUtils {
 
     private static final int[] SUM_DAYS_OF_GREGORIAN_MONTHS = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
 
-    private DateHelper() {}
+    private DateUtils() {}
 
     public static long getDifferenceInDays(Date first, Date second) {
         long diff = first.getTime() - second.getTime();
@@ -43,6 +43,4 @@ public class DateHelper {
                 _gregorianDate.get(Calendar.SECOND)
         );
     }
-
-
 }

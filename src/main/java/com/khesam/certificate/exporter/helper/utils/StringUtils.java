@@ -1,6 +1,6 @@
-package com.khesam.certificate.exporter.helper;
+package com.khesam.certificate.exporter.helper.utils;
 
-public class StringHelper {
+public class StringUtils {
 
     public static String addLeadingZero(int input, int length) {
         StringBuilder result = new StringBuilder(String.valueOf(input));
@@ -8,6 +8,4 @@ public class StringHelper {
             result.insert(0, "0");
         return result.toString();
     }
-
-
 }

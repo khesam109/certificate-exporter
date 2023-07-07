@@ -1,27 +1,31 @@
 package com.khesam.certificate.exporter.helper;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.File;
 import java.util.*;
 
+@Singleton
 public class FileHelper {
 
-    private FileHelper() {}
+    @Inject
+    public FileHelper() {}
 
-    public static Collection<File> listInterestedFiles(String rootDirPath, List<String> fileExtensions) {
+    public Collection<File> getInterestedFiles(String rootDirectoryPath, List<String> fileExtensions) {
         return listFileTree(
-                new File(rootDirPath),
+                new File(rootDirectoryPath),
                 fileExtensions != null ? fileExtensions : Collections.emptyList()
         );
     }
 
-    public static Collection<File> listAllFiles(String rootDirPath) {
+    public Collection<File> getAllFiles(String rootDirectoryPath) {
         return listFileTree(
-                new File(rootDirPath),
+                new File(rootDirectoryPath),
                 Collections.emptyList()
         );
     }
 
-    private static Collection<File> listFileTree(File rooDirectory, List<String> fileExtensions) {
+    private Collection<File> listFileTree(File rooDirectory, List<String> fileExtensions) {
         Set<File> fileTree = new HashSet<>();
         if (rooDirectory == null || rooDirectory.listFiles() == null) {
             return Collections.emptyList();
@@ -36,7 +40,7 @@ public class FileHelper {
         return fileTree;
     }
 
-    private static boolean isInterested(String name, List<String> fileExtensions) {
+    private boolean isInterested(String name, List<String> fileExtensions) {
         if (fileExtensions.isEmpty()) return true;
 
         return fileExtensions.stream().anyMatch(
