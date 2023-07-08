@@ -6,6 +6,7 @@ import dagger.Component;
 
 import javax.inject.Singleton;
 
+
 @Singleton
 @Component(modules = {
         CertificateCollectorCallbackModule.class,
@@ -13,7 +14,6 @@ import javax.inject.Singleton;
         ObjectMapperModule.class,
         CertificateCollectorModule.class,
         PrometheusMetricModule.class
-
 })
 public interface ApplicationDependencyComponent {
 

@@ -11,7 +11,7 @@ public class CertificateCollectorTaskRunner extends PeriodicTaskRunner {
     public CertificateCollectorTaskRunner(
             @Assisted int period,
             @Assisted TimeUnit timeUnit,
-            Runnable certificateCollectorTask
+            @Assisted CertificateCollectorTask certificateCollectorTask
     ) {
         super(period, timeUnit, certificateCollectorTask);
     }

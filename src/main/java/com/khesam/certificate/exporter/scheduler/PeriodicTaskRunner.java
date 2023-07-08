@@ -11,14 +11,14 @@ public abstract class PeriodicTaskRunner {
     private final Runnable task;
     private final ScheduledExecutorService executor;
 
-    public PeriodicTaskRunner(int period, TimeUnit timeUnit, Runnable task) {
+    public  PeriodicTaskRunner(int period, TimeUnit timeUnit, Runnable task) {
         this.period = period;
         this.timeUnit = timeUnit;
         this.task = task;
         this.executor = Executors.newScheduledThreadPool(1);
     }
 
-    protected void run() {
+    public void run() {
         this.executor.scheduleAtFixedRate(
                 this.task, 0, period, timeUnit
         );
