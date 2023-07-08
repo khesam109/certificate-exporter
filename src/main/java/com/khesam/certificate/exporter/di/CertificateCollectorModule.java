@@ -23,4 +23,16 @@ public abstract class CertificateCollectorModule {
     abstract CertificateCollector<TargetScan.RemoteTarget> remoteEndpointCertificateCollector(
             RemoteEndpointCertificateCollector certificateCollector
     );
+
+//    @Binds
+//    @Singleton
+//    abstract CertificateCollector<TargetScan.LocalTarget> localDirectoryCertificateCollector(
+//            LocalDirectoryCertificateCollector certificateCollector
+//    );
+//
+//    @Binds
+//    @Singleton
+//    abstract CertificateCollector<TargetScan.RemoteTarget> remoteEndpointCertificateCollector(
+//            RemoteEndpointCertificateCollector certificateCollector
+//    );
 }

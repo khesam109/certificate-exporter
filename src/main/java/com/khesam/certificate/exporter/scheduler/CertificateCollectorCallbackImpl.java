@@ -1,6 +1,7 @@
 package com.khesam.certificate.exporter.scheduler;
 
 import com.khesam.certificate.exporter.prometheus.PrometheusCertificateExporter;
+import org.tinylog.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,6 +22,8 @@ public class CertificateCollectorCallbackImpl implements CertificateCollectorCal
 
     @Override
     public void onSuccess(Map<String, X509Certificate> certificates) {
+        Logger.info(String.format("%d certificate(s) has been found.", certificates.size()));
+
         certificates.forEach((key, value) -> {
             if (value == null) {
                 prometheusCertificateExporter.notAvailableData(key);

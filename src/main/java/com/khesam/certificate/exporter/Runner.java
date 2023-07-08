@@ -5,7 +5,6 @@ import com.khesam.certificate.exporter.config.ScheduleConfig;
 import com.khesam.certificate.exporter.config.ServerConfig;
 import com.khesam.certificate.exporter.config.TargetScan;
 import com.khesam.certificate.exporter.di.ApplicationDependencyComponent;
-//import com.khesam.certificate.exporter.di.DaggerApplicationDependencyComponent;
 import com.khesam.certificate.exporter.di.DaggerApplicationDependencyComponent;
 import com.khesam.certificate.exporter.scheduler.CertificateCollectorScheduler;
 import com.sun.net.httpserver.HttpServer;
@@ -42,24 +41,29 @@ public class Runner {
         }
     }
 
-    private static void runServer(ServerConfig serverConfig) throws IOException {
+    private static void runServer(ServerConfig serverConfig) {
         Logger.info("Starting exporter...");
-        HttpServer httpServer = HttpServer.create(
-                new InetSocketAddress(
-                        serverConfig.port()
-                ), 3
-        );
 
-        httpServer.createContext(
-                serverConfig.contextRoot(),
-                new HTTPServer.HTTPMetricHandler(CollectorRegistry.defaultRegistry)
-        );
+        try {
+            HttpServer httpServer = HttpServer.create(
+                    new InetSocketAddress(
+                            serverConfig.port()
+                    ), 3
+            );
 
-        new HTTPServer.Builder()
-                .withHttpServer(httpServer)
-                .build();
+            httpServer.createContext(
+                    serverConfig.contextRoot(),
+                    new HTTPServer.HTTPMetricHandler(CollectorRegistry.defaultRegistry)
+            );
 
-        Logger.info("Http endpoint successfully started");
+            new HTTPServer.Builder()
+                    .withHttpServer(httpServer)
+                    .build();
+
+            Logger.info("Http endpoint successfully started");
+        } catch (IOException e) {
+            Logger.error(e, "Failed to start http server");
+        }
     }
 
     private static void startScheduling(

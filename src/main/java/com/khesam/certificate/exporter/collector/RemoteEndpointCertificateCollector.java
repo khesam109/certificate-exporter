@@ -2,6 +2,7 @@ package com.khesam.certificate.exporter.collector;
 
 import com.khesam.certificate.exporter.config.TargetScan;
 import com.khesam.certificate.exporter.helper.HttpHelper;
+import org.tinylog.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -22,10 +23,14 @@ public class RemoteEndpointCertificateCollector implements CertificateCollector<
 
     @Override
     public Map<String, X509Certificate> collect(List<TargetScan.RemoteTarget> targets) {
+        Logger.info("Remote Certificate collector job has been started");
+
         Map<String, X509Certificate> certificates = new HashMap<>();
         targets.forEach(endpoint -> {
             certificates.put(endpoint.url(), httpHelper.getCertificate(endpoint.url(), endpoint.caFilePath()));
         });
+
+        Logger.info(String.format("Remote Certificate collector found %d certificate(s)", certificates.size()));
 
         return certificates;
     }

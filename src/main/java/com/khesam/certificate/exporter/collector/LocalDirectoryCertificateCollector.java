@@ -28,6 +28,8 @@ public class LocalDirectoryCertificateCollector implements CertificateCollector<
 
     @Override
     public Map<String, X509Certificate> collect(List<TargetScan.LocalTarget> targets) {
+        Logger.info("Local Certificate collector job has been started");
+
         Set<File> files = getAllCertificates(targets);
 
         Map<String, X509Certificate> certificates = new HashMap<>();
@@ -40,6 +42,8 @@ public class LocalDirectoryCertificateCollector implements CertificateCollector<
                 Logger.error(e, String.format("Failed to read file as X509 certificate. \n%s", file.getAbsolutePath()));
             }
         });
+
+        Logger.info(String.format("Local Certificate collector found %d certificate(s)", certificates.size()));
 
         return certificates;
     }
