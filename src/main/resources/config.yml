@@ -5,14 +5,11 @@ server_config:
   context_root: '/metrics/prometheus'
   port: 9094
 directories:
-  - path: 'F:\Personal\github\quarkus-monitoring-starter\docker-compose\tls'
+  - path: '/etc/home/tls'
     file_extensions:
       - crt
       - cer
 remote_endpoints:
   - path: 'https://www.farsnews.ir/'
-    ca_file_path: 'C:\Users\M_Kalantari\Documents\My Received Files\fars-chain\chain.crt'
-#  - path: sad
-#    file_extensions:
-#      - cer
+    ca_file_path: '/etc/certificateexporter/tls/chain.crt'
 
