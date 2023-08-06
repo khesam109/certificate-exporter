@@ -6,7 +6,7 @@
 
     <groupId>com.khesam</groupId>
     <artifactId>prom-certificate-exporter</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 
     <properties>
         <bouncycastle.version>1.70</bouncycastle.version>
@@ -17,6 +17,7 @@
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>

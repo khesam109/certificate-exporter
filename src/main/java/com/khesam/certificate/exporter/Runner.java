@@ -60,7 +60,7 @@ public class Runner {
                     .withHttpServer(httpServer)
                     .build();
 
-            Logger.info("Http endpoint successfully started");
+            Logger.info("Http endpoint successfully started on port {}", serverConfig.port());
         } catch (IOException e) {
             Logger.error(e, "Failed to start http server");
         }
