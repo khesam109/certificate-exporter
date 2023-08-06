@@ -4,6 +4,7 @@ import org.tinylog.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -57,6 +58,10 @@ final class ConfigMapper {
     private List<TargetScan.LocalTarget> localTargets(
             List<ExporterConfigModel.LocalDirectoryConfigModel> localDirectoryConfigModels
     ) {
+        if (localDirectoryConfigModels == null || localDirectoryConfigModels.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         return localDirectoryConfigModels.stream().map(
                 e -> new TargetScan.LocalTarget(e.path(), e.fileExtensions())
         ).collect(Collectors.toList());
@@ -65,6 +70,9 @@ final class ConfigMapper {
     private List<TargetScan.RemoteTarget> remoteTargets(
             List<ExporterConfigModel.RemoteEndPointConfigModel> remoteEndPointConfigModels
     ) {
+        if (remoteEndPointConfigModels == null || remoteEndPointConfigModels.isEmpty()) {
+            return Collections.emptyList();
+        }
         return remoteEndPointConfigModels.stream().map(
                 e -> new TargetScan.RemoteTarget(e.path(), e.caFilePath())
         ).collect(Collectors.toList());

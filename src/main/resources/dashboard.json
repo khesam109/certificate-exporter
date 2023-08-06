@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 13,
+  "id": 9,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -33,14 +33,17 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
+      "description": "Certificate Exporter Info",
       "fieldConfig": {
         "defaults": {
           "color": {
+            "fixedColor": "purple",
             "mode": "thresholds"
           },
           "custom": {
-            "align": "auto",
-            "displayMode": "auto",
+            "align": "left",
+            "displayMode": "color-background",
+            "filterable": false,
             "inspect": false
           },
           "mappings": [],
@@ -48,12 +51,20 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "#939399",
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "dark-red",
+                "value": 0
+              },
+              {
+                "color": "light-yellow",
+                "value": 30
+              },
+              {
+                "color": "#106005",
+                "value": 60
               }
             ]
           }
@@ -83,7 +94,25 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 170
+                "value": 200
+              },
+              {
+                "id": "displayName",
+                "value": "Instance"
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "external-gateway.certificate-exporter.monitoring.hamoon.net:9103": {
+                        "index": 0,
+                        "text": "External Gateway"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
               }
             ]
           },
@@ -95,27 +124,83 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 19
+                "value": 100
+              },
+              {
+                "id": "displayName",
+                "value": "Expired In"
               }
             ]
           },
           {
             "matcher": {
               "id": "byName",
-              "options": "Path"
+              "options": "common_name"
             },
             "properties": [
               {
                 "id": "custom.width",
-                "value": 700
+                "value": 300
+              },
+              {
+                "id": "displayName",
+                "value": "Common Name"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "path"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 300
+              },
+              {
+                "id": "displayName",
+                "value": "Path"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "expiration_date"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              },
+              {
+                "id": "displayName",
+                "value": "Expiration Date"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "effective_date"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              },
+              {
+                "id": "displayName",
+                "value": "Effective Date"
               }
             ]
           }
         ]
       },
       "gridPos": {
-        "h": 12,
-        "w": 17,
+        "h": 13,
+        "w": 23,
         "x": 0,
         "y": 0
       },
@@ -130,7 +215,12 @@
         },
         "frameIndex": 2,
         "showHeader": true,
-        "sortBy": []
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "effective_date"
+          }
+        ]
       },
       "pluginVersion": "9.3.1",
       "targets": [
@@ -141,7 +231,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "sum by(Path, instance) (cert)",
+          "expr": "sum by(instance, common_name, effective_date, expiration_date, path) (certificate_expiry_days)",
           "format": "table",
           "instant": true,
           "legendFormat": "",
@@ -149,7 +239,8 @@
           "refId": "A"
         }
       ],
-      "title": "Panel Title",
+      "title": "Certificate Exporter Info",
+      "transparent": true,
       "type": "table"
     }
   ],
@@ -161,13 +252,13 @@
     "list": []
   },
   "time": {
-    "from": "2023-05-27T10:12:42.456Z",
-    "to": "2023-05-27T10:22:42.456Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Certificate Exporter",
-  "uid": "certificate-exporter-dashboard-operation-v1",
-  "version": 1,
+  "uid": "cert-exporter-dashboard-operation-v3",
+  "version": 3,
   "weekStart": ""
 }

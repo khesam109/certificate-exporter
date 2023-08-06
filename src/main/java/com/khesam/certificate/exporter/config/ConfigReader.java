@@ -11,7 +11,7 @@ import java.io.IOException;
 public class ConfigReader {
 
     private static final String CONFIG_PATH_KEY = "EXPORTER_CONFIG_PATH";
-    private static final String DEFAULT_CONFIG_PATH = "/etc/certificateexporter/config.yml";
+    private static final String DEFAULT_CONFIG_PATH = "/etc/certificate-exporter/config.yml";
 
     private final ObjectMapper objectMapper;
     private final ConfigMapper configMapper;
@@ -66,7 +66,7 @@ public class ConfigReader {
 
     private File configFile() {
         String configPath = System.getenv(CONFIG_PATH_KEY);
-        if (configPath != null && configPath.isEmpty())
+        if (configPath != null && !configPath.isEmpty())
             return new File(configPath);
         return new File(DEFAULT_CONFIG_PATH);
     }
