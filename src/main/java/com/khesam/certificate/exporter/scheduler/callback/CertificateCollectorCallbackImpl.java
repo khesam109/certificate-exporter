@@ -1,4 +1,4 @@
-package com.khesam.certificate.exporter.scheduler;
+package com.khesam.certificate.exporter.scheduler.callback;
 
 import com.khesam.certificate.exporter.prometheus.PrometheusCertificateExporter;
 import org.tinylog.Logger;

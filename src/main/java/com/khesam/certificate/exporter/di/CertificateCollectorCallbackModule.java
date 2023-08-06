@@ -1,7 +1,7 @@
 package com.khesam.certificate.exporter.di;
 
-import com.khesam.certificate.exporter.scheduler.CertificateCollectorCallback;
-import com.khesam.certificate.exporter.scheduler.CertificateCollectorCallbackImpl;
+import com.khesam.certificate.exporter.scheduler.callback.CertificateCollectorCallback;
+import com.khesam.certificate.exporter.scheduler.callback.CertificateCollectorCallbackImpl;
 import dagger.Binds;
 import dagger.Module;
 

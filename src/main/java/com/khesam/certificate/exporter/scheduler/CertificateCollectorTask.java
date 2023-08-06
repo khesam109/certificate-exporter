@@ -3,6 +3,7 @@ package com.khesam.certificate.exporter.scheduler;
 import com.khesam.certificate.exporter.collector.LocalDirectoryCertificateCollector;
 import com.khesam.certificate.exporter.collector.RemoteEndpointCertificateCollector;
 import com.khesam.certificate.exporter.config.TargetScan;
+import com.khesam.certificate.exporter.scheduler.callback.CertificateCollectorCallback;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
 import org.tinylog.Logger;
@@ -34,7 +35,7 @@ public class CertificateCollectorTask implements Runnable {
 
     @Override
     public void run() {
-        Logger.info("Certificate collector scheduler has been started on %s", new Date().toString());
+        Logger.info("Certificate collector scheduler has been started at {}}", new Date().toString());
 
         Map<String, X509Certificate> certificates = new HashMap<>(
                 this.localDirectoryCertificateCollector.collect(
@@ -46,6 +47,6 @@ public class CertificateCollectorTask implements Runnable {
 
         this.certificateCollectorCallback.onSuccess(certificates);
 
-        Logger.info("Certificate collector scheduler just finished on %s", new Date().toString());
+        Logger.info("Certificate collector scheduler just finished at {}", new Date().toString());
     }
 }

@@ -2,6 +2,7 @@ package com.khesam.certificate.exporter.helper;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
+import org.tinylog.Logger;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLPeerUnverifiedException;
@@ -53,10 +54,12 @@ public class ExporterHttpClient {
             if (optional.isPresent()) {
                 return getEndEntityCertificate(optional.get());
             } else {
+                Logger.info("Cannot fetch certificate from {}", url);
                 return null;
             }
 
         } catch (IOException | InterruptedException | URISyntaxException e) {
+            Logger.error(e, "Failed to access {}.", url);
             return null;
         }
     }
