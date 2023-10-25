@@ -1,5 +1,6 @@
-package com.khesam.certificate.exporter.di;
+package com.khesam.certificate.exporter.di.module;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import dagger.Module;
@@ -13,6 +14,10 @@ public class ObjectMapperModule {
     @Singleton
     @Provides
     ObjectMapper provideObjectMapper() {
-        return new ObjectMapper(new YAMLFactory());
+        ObjectMapper mapper = new  ObjectMapper(
+                new YAMLFactory()
+        );
+        mapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
+        return mapper;
     }
 }

@@ -1,4 +1,4 @@
-package com.khesam.certificate.exporter.di;
+package com.khesam.certificate.exporter.di.module;
 
 import com.khesam.certificate.exporter.collector.CertificateCollector;
 import com.khesam.certificate.exporter.collector.LocalDirectoryCertificateCollector;

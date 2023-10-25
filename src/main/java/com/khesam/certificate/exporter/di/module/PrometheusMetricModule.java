@@ -1,4 +1,4 @@
-package com.khesam.certificate.exporter.di;
+package com.khesam.certificate.exporter.di.module;
 
 import dagger.Module;
 import dagger.Provides;

@@ -1,10 +1,13 @@
 package com.khesam.certificate.exporter.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.util.List;
 
+@JsonRootName("exporter")
 record ExporterConfigModel(
+        @JsonProperty("calendar_system") String calendarSystem,
         @JsonProperty("server_config") ServerConfigModel serverConfigModel,
         @JsonProperty("scan_interval") ScanIntervalConfigModel scanIntervalConfigModel,
         @JsonProperty("directories") List<LocalDirectoryConfigModel> localDirectoryConfigModels,

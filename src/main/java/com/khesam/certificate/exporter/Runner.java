@@ -4,8 +4,8 @@ import com.khesam.certificate.exporter.config.ConfigReader;
 import com.khesam.certificate.exporter.config.ScheduleConfig;
 import com.khesam.certificate.exporter.config.ServerConfig;
 import com.khesam.certificate.exporter.config.TargetScan;
-import com.khesam.certificate.exporter.di.ApplicationDependencyComponent;
-import com.khesam.certificate.exporter.di.DaggerApplicationDependencyComponent;
+import com.khesam.certificate.exporter.di.component.ApplicationDependencyComponent;
+import com.khesam.certificate.exporter.di.component.DaggerApplicationDependencyComponent;
 import com.khesam.certificate.exporter.scheduler.CertificateCollectorScheduler;
 import com.sun.net.httpserver.HttpServer;
 import io.prometheus.client.CollectorRegistry;
@@ -44,6 +44,7 @@ public class Runner {
     private static void runServer(ServerConfig serverConfig) {
         Logger.info("Starting exporter...");
 
+        HTTPServer server = null;
         try {
             HttpServer httpServer = HttpServer.create(
                     new InetSocketAddress(
@@ -56,13 +57,17 @@ public class Runner {
                     new HTTPServer.HTTPMetricHandler(CollectorRegistry.defaultRegistry)
             );
 
-            new HTTPServer.Builder()
+            server = new HTTPServer.Builder()
                     .withHttpServer(httpServer)
                     .build();
 
             Logger.info("Http endpoint successfully started on port {}", serverConfig.port());
         } catch (IOException e) {
             Logger.error(e, "Failed to start http server");
+        } finally {
+            if (server != null) {
+                server.close();
+            }
         }
     }
 

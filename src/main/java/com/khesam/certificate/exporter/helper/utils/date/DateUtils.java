@@ -37,10 +37,7 @@ public class DateUtils {
         int jm = (days < 186) ? 1 + (days / 31) : 7 + ((days - 186) / 30);
         int jd = 1 + ((days < 186) ? (days % 31) : ((days - 186) % 30));
         return PersianCalendar.getInstance(
-                jy, jm, jd,
-                _gregorianDate.get(Calendar.HOUR_OF_DAY),
-                _gregorianDate.get(Calendar.MINUTE),
-                _gregorianDate.get(Calendar.SECOND)
+                jy, jm, jd
         );
     }
 }

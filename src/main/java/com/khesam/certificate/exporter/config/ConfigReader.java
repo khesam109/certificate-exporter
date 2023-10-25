@@ -11,14 +11,13 @@ import java.io.IOException;
 public class ConfigReader {
 
     private static final String CONFIG_PATH_KEY = "EXPORTER_CONFIG_PATH";
-    private static final String DEFAULT_CONFIG_PATH = "/etc/certificate-exporter/config.yml";
+//    private static final String DEFAULT_CONFIG_PATH = "/etc/certificate-exporter/config.yml";
+    private static final String DEFAULT_CONFIG_PATH = "D:\\Personal\\project\\github\\certificate-exporter\\src\\main\\resources\\config.yml";
 
     private final ObjectMapper objectMapper;
     private final ConfigMapper configMapper;
 
-    private ServerConfig serverConfig;
-    private ScheduleConfig scheduleConfig;
-    private TargetScan targetScan;
+    private ExporterConfig exporterConfig;
 
     @Inject
     public ConfigReader(
@@ -31,37 +30,29 @@ public class ConfigReader {
 
     public void init() throws IOException {
         ExporterConfigModel exporterConfigModel = objectMapper.readValue(configFile(), ExporterConfigModel.class);
+        this.exporterConfig = configMapper.fromExporterConfigModel(exporterConfigModel);
+    }
 
-        this.serverConfig = configMapper.fromServerConfigModel(
-                exporterConfigModel.serverConfigModel()
-        );
-
-        this.scheduleConfig = configMapper.fromScanIntervalConfigModel(
-                exporterConfigModel.scanIntervalConfigModel()
-        );
-
-        this.targetScan = configMapper.fromLocalDirectoryConfigModelAndRemoteEndPointConfigModel(
-                exporterConfigModel.localDirectoryConfigModels(),
-                exporterConfigModel.remoteEndPointConfigModels()
-        );
+    public ExporterConfig.CalendarSystem getCalendarSystem() {
+        return this.exporterConfig.calendarSystem();
     }
 
     public ServerConfig serverConfig() {
-        if (this.serverConfig == null)
+        if (this.exporterConfig.serverConfig() == null)
             throw new IllegalStateException("Server config was not load due to unknown error");
-        return this.serverConfig;
+        return this.exporterConfig.serverConfig();
     }
 
     public ScheduleConfig scheduleConfig() {
-        if (this.scheduleConfig == null)
+        if (this.exporterConfig.scheduleConfig() == null)
             throw new IllegalStateException("Schedule config was not load due to unknown error");
-        return this.scheduleConfig;
+        return this.exporterConfig.scheduleConfig();
     }
 
     public TargetScan targetScan() {
-        if (this.targetScan == null)
+        if (this.exporterConfig.targetScan() == null)
             throw new IllegalStateException("Targets was not load due to unknown error");
-        return this.targetScan;
+        return this.exporterConfig.targetScan();
     }
 
     private File configFile() {

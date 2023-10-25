@@ -51,19 +51,19 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#939399",
+                "color": "transparent",
                 "value": null
               },
               {
-                "color": "dark-red",
+                "color": "#eb1b33",
                 "value": 0
               },
               {
-                "color": "light-yellow",
+                "color": "#a67009",
                 "value": 30
               },
               {
-                "color": "#106005",
+                "color": "#0bce17",
                 "value": 60
               }
             ]
@@ -258,7 +258,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "Certificate Exporter",
-  "uid": "cert-exporter-dashboard-operation-v3",
-  "version": 3,
+  "uid": "cert-exporter-dashboard-operation-v4",
+  "version": 4,
   "weekStart": ""
 }

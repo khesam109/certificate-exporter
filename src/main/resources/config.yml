@@ -1,15 +1,17 @@
-scan_interval:
-  period: 1
-  unit: minutes
-server_config:
-  context_root: '/metrics/prometheus'
-  port: 9094
-directories:
-  - path: '/etc/home/tls'
-    file_extensions:
-      - crt
-      - cer
-remote_endpoints:
-  - path: 'https://www.farsnews.ir/'
-    ca_file_path: '/etc/certificateexporter/tls/chain.crt'
-
+exporter:
+  calendar_system: hijri
+#  calendar_system: gregorian
+  scan_interval:
+    period: 1
+    unit: days
+  server_config:
+    context_root: '/metrics/prometheus'
+    port: 9094
+  directories:
+    - path: 'C:\Users\M_Kalantari.IRANET\Documents\My Received Files\0802'
+      file_extensions:
+  #      - crt
+        - cer
+  #remote_endpoints:
+  #  - path: 'https://www.farsnews.ir/'
+  #    ca_file_path: '/etc/certificateexporter/tls/chain.crt'
